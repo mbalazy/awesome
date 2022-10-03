@@ -115,8 +115,6 @@ local mymainmenu = awful.menu({
 	},
 })
 
-local mylauncher = awful.widget.launcher({ image = beautiful.awesome_icon, menu = mymainmenu })
-
 -- Menubar configuration
 menubar.utils.terminal = terminal -- Set the terminal for applications that require it
 -- }}}
@@ -127,49 +125,6 @@ local mykeyboardlayout = awful.widget.keyboardlayout()
 -- {{{ Wibar
 -- Create a textclock widget
 local mytextclock = wibox.widget.textclock()
-
--- Create a wibox for each screen and add it
-local taglist_buttons = gears.table.join(
-	awful.button({}, 1, function(t)
-		t:view_only()
-	end),
-	awful.button({ modkey }, 1, function(t)
-		if client.focus then
-			client.focus:move_to_tag(t)
-		end
-	end),
-	awful.button({}, 3, awful.tag.viewtoggle),
-	awful.button({ modkey }, 3, function(t)
-		if client.focus then
-			client.focus:toggle_tag(t)
-		end
-	end),
-	awful.button({}, 4, function(t)
-		awful.tag.viewnext(t.screen)
-	end),
-	awful.button({}, 5, function(t)
-		awful.tag.viewprev(t.screen)
-	end)
-)
-
-local tasklist_buttons = gears.table.join(
-	awful.button({}, 1, function(c)
-		if c == client.focus then
-			c.minimized = true
-		else
-			c:emit_signal("request::activate", "tasklist", { raise = true })
-		end
-	end),
-	awful.button({}, 3, function()
-		awful.menu.client_list({ theme = { width = 250 } })
-	end),
-	awful.button({}, 4, function()
-		awful.client.focus.byidx(1)
-	end),
-	awful.button({}, 5, function()
-		awful.client.focus.byidx(-1)
-	end)
-)
 
 local function set_wallpaper(s)
 	-- Wallpaper
@@ -249,8 +204,7 @@ awful.screen.connect_for_each_screen(function(s)
 	-- 	},
 	-- })
 
--- }}} delete
-
+	-- }}} delete
 end)
 -- }}}
 
@@ -268,7 +222,7 @@ root.buttons(gears.table.join(
 globalkeys = gears.table.join(
 	awful.key({ modkey }, "s", hotkeys_popup.show_help, { description = "show help", group = "awesome" }),
 	awful.key({ modkey }, "Tab", awful.tag.viewnext, { description = "view next", group = "tag" }),
-	awful.key({ modkey, "Shift"}, "Tab", awful.tag.viewprev, { description = "view previous", group = "tag" }),
+	awful.key({ modkey, "Shift" }, "Tab", awful.tag.viewprev, { description = "view previous", group = "tag" }),
 	awful.key({ modkey }, "Escape", awful.tag.history.restore, { description = "go back", group = "tag" }),
 
 	awful.key({ modkey }, "j", function()
@@ -303,6 +257,12 @@ globalkeys = gears.table.join(
 		description = "swap with previous client by index",
 		group = "client",
 	}),
+	awful.key({ altkey }, "Escape", function()
+		awful.screen.focus_relative(1)
+	end, {
+		description = "focus the next screen",
+		group = "screen",
+	}),
 	awful.key({ modkey, "Control" }, "j", function()
 		awful.screen.focus_relative(1)
 	end, {
@@ -326,22 +286,28 @@ globalkeys = gears.table.join(
 		group = "client",
 	}),
 
-  -- Multimedia keys, volume
-  awful.key({ }, "XF86AudioRaiseVolume",
-    function () awful.util.spawn("amixer -D pulse sset Master 5%+") end),
-  awful.key({ }, "XF86AudioLowerVolume",
-    function () awful.util.spawn("amixer -D pulse sset Master 5%-") end),
+	-- Multimedia keys, volume
+	awful.key({}, "XF86AudioRaiseVolume", function()
+		awful.util.spawn("amixer -D pulse sset Master 5%+")
+	end),
+	awful.key({}, "XF86AudioLowerVolume", function()
+		awful.util.spawn("amixer -D pulse sset Master 5%-")
+	end),
 
-  -- Backlight control
-  awful.key({ }, "XF86MonBrightnessUp",
-    function () awful.util.spawn("xbacklight +8") end),
-  awful.key({ }, "XF86MonBrightnessDown",
-    function () awful.util.spawn("xbacklight -8") end),
+	-- Backlight control
+	awful.key({}, "XF86MonBrightnessUp", function()
+		awful.util.spawn("xbacklight +8")
+	end),
+	awful.key({}, "XF86MonBrightnessDown", function()
+		awful.util.spawn("xbacklight -8")
+	end),
 
-  awful.key({ "Shift" }, "XF86MonBrightnessUp",
-    function () awful.util.spawn("xbacklight +2") end),
-  awful.key({ "Shift" }, "XF86MonBrightnessDown",
-    function () awful.util.spawn("xbacklight -2") end),
+	awful.key({ "Shift" }, "XF86MonBrightnessUp", function()
+		awful.util.spawn("xbacklight +2")
+	end),
+	awful.key({ "Shift" }, "XF86MonBrightnessDown", function()
+		awful.util.spawn("xbacklight -2")
+	end),
 
 	-- Standard program
 	awful.key({ modkey }, "Return", function()
@@ -605,6 +571,10 @@ awful.rules.rules = {
 			placement = awful.placement.no_overlap + awful.placement.no_offscreen,
 		},
 	},
+	{
+		rule_any = { class = { "Polybar" } },
+		properties = { focusable = false, border_width = false },
+	},
 
 	-- Floating clients.
 	{
@@ -716,12 +686,14 @@ client.connect_signal("unfocus", function(c)
 end)
 -- }}}
 
--- awful.screen.set_auto_dpi_enabled(true)
-os.execute("xset r rate 200 100")
--- os.execute("polybar")
+-- Gaps
+beautiful.useless_gap = 30
 
+-- Autostart
+awful.spawn.with_shell("xset r rate 200 100")
+awful.spawn.with_shell("picom -b")
+awful.spawn.with_shell("/home/mart/.config/polybar/launch.sh")
 -- set wallpaper
-os.execute("feh --bg-fill ~/wallpapers/glacier-mountains-waterfall-watch-tower-moon-night-time-3840x2160-6404.png")
-
--- os.execute("polybar")
-beautiful.useless_gap=30
+awful.spawn.with_shell(
+	"feh --bg-fill ~/wallpapers/glacier-mountains-waterfall-watch-tower-moon-night-time-3840x2160-6404.png"
+)
