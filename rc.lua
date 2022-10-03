@@ -294,6 +294,23 @@ globalkeys = gears.table.join(
 		awful.util.spawn("amixer -D pulse sset Master 5%-")
 	end),
 
+	awful.key({ modkey }, "F3", function()
+		awful.util.spawn_with_shell("redshift -x")
+	end),
+
+	awful.key({ modkey }, "F4", function()
+		awful.util.spawn_with_shell("redshift -o")
+	end),
+
+  --systemctl suspend
+	awful.key({ modkey, "Shift" }, "s", function()
+		awful.util.spawn_with_shell("systemctl suspend")
+	end),
+
+  -- run app
+	awful.key({ modkey }, "space", function()
+		awful.util.spawn("/home/mart/.config/rofi/launchers/type-6/launcher.sh")
+	end),
 
   -- screen shoots to clipboard
 	awful.key({ modkey, "Control" }, "f", function()
@@ -372,18 +389,18 @@ globalkeys = gears.table.join(
 		description = "decrease the number of columns",
 		group = "layout",
 	}),
-	awful.key({ modkey }, "space", function()
-		awful.layout.inc(1)
-	end, {
-		description = "select next",
-		group = "layout",
-	}),
-	awful.key({ modkey, "Shift" }, "space", function()
-		awful.layout.inc(-1)
-	end, {
-		description = "select previous",
-		group = "layout",
-	}),
+	-- awful.key({ modkey }, "space", function()
+	-- 	awful.layout.inc(1)
+	-- end, {
+	-- 	description = "select next",
+	-- 	group = "layout",
+	-- }),
+	-- awful.key({ modkey, "Shift" }, "space", function()
+	-- 	awful.layout.inc(-1)
+	-- end, {
+	-- 	description = "select previous",
+	-- 	group = "layout",
+	-- }),
 
 	awful.key({ modkey, "Control" }, "n", function()
 		local c = awful.client.restore()
