@@ -294,6 +294,16 @@ globalkeys = gears.table.join(
 		awful.util.spawn("amixer -D pulse sset Master 5%-")
 	end),
 
+
+  -- screen shoots to clipboard
+	awful.key({ modkey, "Control" }, "f", function()
+		awful.util.spawn_with_shell("maim -s | xclip -selection clipboard -t image/png")
+	end),
+  -- screen shoots to ~/shots/
+	awful.key({ modkey, "Control", "Shift" }, "f", function()
+		awful.util.spawn_with_shell("maim -s ~/shots/$(date +%s).png")
+	end),
+
 	-- Backlight control
 	awful.key({}, "XF86MonBrightnessUp", function()
 		awful.util.spawn("xbacklight +8")
