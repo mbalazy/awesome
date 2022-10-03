@@ -721,7 +721,7 @@ os.execute("xset r rate 200 100")
 -- os.execute("polybar")
 
 -- set wallpaper
-os.execute("feh --bg-fill ~/wallpapers/carina-nebula-cosmic-cliffs-james-webb-space-telescope-7680x4448-8689.jpg")
+os.execute("feh --bg-fill ~/wallpapers/glacier-mountains-waterfall-watch-tower-moon-night-time-3840x2160-6404.png")
 
 -- os.execute("polybar")
 beautiful.useless_gap=30
