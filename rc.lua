@@ -307,6 +307,11 @@ globalkeys = gears.table.join(
 		awful.util.spawn_with_shell("systemctl suspend")
 	end),
 
+  -- powermenu
+	awful.key({ modkey, "Shift" }, "space", function()
+		awful.util.spawn("/home/mart/.config/rofi/powermenu/type-6/powermenu.sh")
+	end),
+
   -- run app
 	awful.key({ modkey }, "space", function()
 		awful.util.spawn("/home/mart/.config/rofi/launchers/type-6/launcher.sh")
