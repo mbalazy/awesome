@@ -729,3 +729,13 @@ awful.spawn.with_shell("/home/mart/.config/polybar/launch.sh")
 awful.spawn.with_shell(
 	"feh --bg-fill ~/wallpapers/glacier-mountains-waterfall-watch-tower-moon-night-time-3840x2160-6404.png"
 )
+
+-- All clients spawn as slave:
+client.connect_signal(
+    "manage",
+    function(c)
+        if not awesome.startup then
+            awful.client.setslave(c)
+        end
+    end
+)
