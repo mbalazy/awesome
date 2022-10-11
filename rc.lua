@@ -290,8 +290,18 @@ globalkeys = gears.table.join(
 	awful.key({}, "XF86AudioRaiseVolume", function()
 		awful.util.spawn("amixer -D pulse sset Master 5%+")
 	end),
+
 	awful.key({}, "XF86AudioLowerVolume", function()
 		awful.util.spawn("amixer -D pulse sset Master 5%-")
+	end),
+
+  --mute
+	awful.key({ modkey }, "XF86AudioLowerVolume", function()
+		awful.util.spawn("pactl set-sink-mute @DEFAULT_SINK@ toggle")
+	end),
+
+	awful.key({ modkey }, "XF86AudioLowerVolume", function()
+		awful.util.spawn("pactl set-sink-mute @DEFAULT_SINK@ toggle")
 	end),
 
 	awful.key({ modkey }, "F3", function()
@@ -299,7 +309,7 @@ globalkeys = gears.table.join(
 	end),
 
 	awful.key({ modkey }, "F4", function()
-		awful.util.spawn_with_shell("redshift -o")
+		awful.util.spawn_with_shell("redshift -O 5500")
 	end),
 
   --systemctl suspend
@@ -359,13 +369,13 @@ globalkeys = gears.table.join(
 	awful.key({ modkey, "Shift" }, "q", awesome.quit, { description = "quit awesome", group = "awesome" }),
 
 	awful.key({ modkey }, "l", function()
-		awful.tag.incmwfact(0.05)
+		awful.tag.incmwfact(0.04)
 	end, {
 		description = "increase master width factor",
 		group = "layout",
 	}),
 	awful.key({ modkey }, "h", function()
-		awful.tag.incmwfact(-0.05)
+		awful.tag.incmwfact(-0.04)
 	end, {
 		description = "decrease master width factor",
 		group = "layout",
