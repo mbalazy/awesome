@@ -300,10 +300,6 @@ globalkeys = gears.table.join(
 		awful.util.spawn("pactl set-sink-mute @DEFAULT_SINK@ toggle")
 	end),
 
-	awful.key({ modkey }, "XF86AudioLowerVolume", function()
-		awful.util.spawn("pactl set-sink-mute @DEFAULT_SINK@ toggle")
-	end),
-
 	awful.key({ modkey }, "F3", function()
 		awful.util.spawn_with_shell("redshift -x")
 	end),
