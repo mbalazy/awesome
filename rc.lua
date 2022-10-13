@@ -315,12 +315,12 @@ globalkeys = gears.table.join(
 
   -- powermenu
   awful.key({ modkey, "Shift" }, "space", function()
-    awful.util.spawn("/home/mart/.config/rofi/powermenu/type-6/powermenu.sh")
+    awful.util.spawn("/home/matr/.config/rofi/powermenu/type-6/powermenu.sh")
   end),
 
   -- run app
   awful.key({ modkey }, "space", function()
-    awful.util.spawn("/home/mart/.config/rofi/launchers/type-6/launcher.sh")
+    awful.util.spawn("/home/matr/.config/rofi/launchers/type-6/launcher.sh")
   end),
 
   -- screen shoots to clipboard
@@ -730,7 +730,7 @@ beautiful.useless_gap = 30
 -- Autostart
 awful.spawn.with_shell("xset r rate 200 100")
 awful.spawn.with_shell("picom -b")
-awful.spawn.with_shell("/home/mart/.config/polybar/launch.sh")
+awful.spawn.with_shell("/home/matr/.config/polybar/launch.sh")
 -- set wallpaper
 awful.spawn.with_shell(
   "feh --bg-fill ~/wallpapers/glacier-mountains-waterfall-watch-tower-moon-night-time-3840x2160-6404.png"
